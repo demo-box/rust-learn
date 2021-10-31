@@ -1,0 +1,20 @@
+[workspace]
+
+members = [
+  "closures",
+  "error",
+  "generics",
+  "guessing_game",
+  "iterator",
+  "lifecycle",
+  "ownership",
+  "package_crate_module",
+  "reference",
+  "slice",
+  "string",
+  "structs",
+  "traits",
+  "use_example",
+  "vector",
+  "smart_pointers",
+]
