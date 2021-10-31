@@ -88,7 +88,42 @@
 - Box<T>是一个指针，Rust 知道它需要多少空间，因为:
   - 指针的大小不会基于它指向的数据的大小变化而变化
 
-## 定义自己的智能指针
+## 函数和方法的隐式解引用转化(Deref Coercion)
 
-TODO:
-https://www.bilibili.com/video/BV1hp4y1k7SV?p=87&spm_id_from=pageDriver
+- 隐式解引用转化(Deref Coercion)是为函数和方法提供的一种便捷特性
+- 假设 T 实现来 Deref trait：
+
+  - Deref Coercion 可以把 T 的引用转化为 T 经过 Deref 操作后生成的引用
+
+- 当把某类型的引用传递给函数或方法时，但它的类型与定义的参数类型不匹配:
+  - Deref Coercion 就会自动发生
+  - 编译器会对 deref 进行一系列调用，来把它转为所需的参数类型
+    - 在编译时完成，没有额外性能开销
+
+## 解引用与可变性
+
+- 可使用 DerefMut trait 重载可变引用的\*运算符
+- 在类型和 trait 在下列三种情况发生时，Rust 会执行 deref coercion：
+  - 当 T: Deref<Target=U>，允许&T 转换为&U
+  - 当 T：DerefMut<Target=U>, 允许&mut 转换为&mut U
+  - 当 T: Deref<Target=U>, 允许&mut T 转换为&U
+
+## Drop Trait
+
+- 实现 Drop Trait，可以让我们自定义当值将要离开作用域时发生的动作
+
+  - 例如: 文件，网络资源释放等
+  - 任何类型都可以实现 Drop trait
+
+- Drop trait 只要求你实现 drop 方法
+
+  - 参数: 对 self 的可变引用
+
+- Drop trait 在预导入模块里(prelude)
+
+## 使用 std::mem::drop 来提前 drop 值
+
+- 很难直接禁用自动的 drop 功能，也没必要
+  - Drop trait 的目的就是进行自动的释放处理逻辑
+- Rust 不允许手动调用 Drop trait 的 drop 方法
+- 但可以调用标准库的 std::mem::drop 函数，来提前 drop 值

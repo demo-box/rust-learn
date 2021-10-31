@@ -2,6 +2,7 @@
 
 members = [
   "closures",
+  "concurrent",
   "error",
   "generics",
   "guessing_game",

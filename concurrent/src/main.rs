@@ -1,4 +1,4 @@
-use std::sync::mpsc;
+use std::sync::{mpsc, Mutex};
 use std::thread;
 use std::time::Duration;
 
@@ -7,7 +7,7 @@ fn main() {
     // let (tx2, rx2) = mpsc::channel();
     // 通过clone创建另一个发送者
     let tx2 = mpsc::Sender::clone(&tx);
-    
+
     thread::spawn(move || {
         let val = String::from("hi");
         tx.send(val).unwrap();
@@ -34,4 +34,14 @@ fn main() {
     for received in rx {
         println!("Got: {}", received);
     }
+
+    // Mutex::new创建互斥锁
+    let m = Mutex::new(5);
+
+    {
+        let mut num = m.lock().unwrap();
+        *num = 6;
+    }
+
+    println!("m = {:?}", m);
 }
