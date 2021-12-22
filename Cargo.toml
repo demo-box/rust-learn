@@ -18,4 +18,5 @@ members = [
   "use_example",
   "vector",
   "smart_pointers",
+  "rc"
 ]
